@@ -1,29 +1,44 @@
-import './Addpenyakit.css';
-import postAddPenyakit from '../post/postAddPenyakit';
+import './SearchFilter.css';
+import postPencarian from '../post/postPencarian';
 import React,{ useState } from 'react';
 
 
-const AddPenyakit = (props) => {
-    const [carihasil, setcarihasil] = useState('');
+const SearchFilter = (props) => {
+    const [caritanggal, setcaritanggal] = useState('');
+    const [caripenyakit, setcaripenyakit] = useState('');
+    const [result , setResult] = useState([]);
   
-    const handleSearch = (event) => {
-        setcarihasil(event.target.value);
+    const handleSearchTanggal = (event) => {
+        setcaritanggal(event.target.value);
+    };
+
+    const handleSearchPenyakit = (event) => {
+      setcaripenyakit(event.target.value);
     };
 
     const onFormSubmit = async (event) =>{
-        if(carihasil === ''){
+        if(caripenyakit === '' && caritanggal === ''){
           alert('Data tidak boleh kosong')
         }
         else{
           event.preventDefault();
           console.log("10000");
           const masukan = {
-            carihasil : carihasil,
+            caripenyakit : caripenyakit,
+            caritanggal : caritanggal,
           }
           // const hasil = await fetch('http://localhost:8080/coba', config);
-          const hasil = await postAddPenyakit(masukan);
+          const hasil = await postPencarian(masukan);
           if (hasil.status === 200){
             alert("Berhasil mencari hasil")
+            const Ketemu = hasil.data
+            const resultData = Ketemu.map(person => (
+                <p className='result'>
+                    {person.date} {person.nama}-{person.sakit}-{person.status}
+                </p>
+            ))
+            setResult(resultData)
+            console.log('hasil dari resultData',resultData)
           }
           else{
             alert('Gagal mencari hasil');
@@ -37,16 +52,24 @@ const AddPenyakit = (props) => {
       <form onSubmit={onFormSubmit} className='MainInputan'>
         <table className="Masukan" align="center">
           <tr>
-            <td>Masukkan Kriteria:</td>
+            <td>Masukkan Tanggal:</td><td>Masukkan Penyakit :</td>
           </tr>
           <tr>
-            <td><input className="Inputan" type="text" name="carihasil" value={carihasil} onChange={handleSearch}/></td>
+            <td><input className="Inputan" type="text" name="caritanggal" value={caritanggal} onChange={handleSearchTanggal}/></td>
+            <td><input className="Inputan" type="text" name="caripenyakit" value={caripenyakit} onChange={handleSearchPenyakit}/></td>
             <td><button className="SubmitButton">Submit</button></td>           
+          </tr>
+          <tr>
+            <td>*Format (YYYY-MM-DD)</td>
           </tr>
         </table>
       </form>
+      <div>
+          <h1 className='hasilLabel'>Hasil Pencarian</h1>
+          {result}
+      </div>
       </>
       )
     }
 
-export default AddPenyakit;
+export default SearchFilter;

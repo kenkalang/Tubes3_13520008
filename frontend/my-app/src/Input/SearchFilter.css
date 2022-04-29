@@ -1,5 +1,5 @@
 .Masukan{
-    margin-top: 100px;
+    top: 200px;
     position: relative;
     font-family: 'Inter',sans-serif;
     font-style: normal;
@@ -27,6 +27,19 @@
 td{
     padding: 10px 50px;
 }
+.buttonUpload{
+    position: relative;
+
+    font-family: 'Inter',sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 9px;
+    padding: 5px;
+    color: #2f2f2f;
+}
 
 .SubmitButton{
     padding: 7px 50px;
@@ -37,9 +50,33 @@ td{
     font-size: 20px;
     line-height: 24px;
 }
+.InputanFile{
+    padding: 7px 50px;
+    border-radius: 9px;
+    font-family: 'Inter',sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    border-radius: 9px;
+    text-align: center;
+}
+
+.hasilLabel {
+    top: 200px;
+    position: relative;
+    font-family: 'Inter',sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    color: #000000;
+}
 
 .result {
     position: relative;
+    top: 200px;
     margin: auto;
     padding: 7px 50px;
     border-radius: 9px;
@@ -64,3 +101,9 @@ td{
   
     color: #001bb1;
   }
+
+
+table{
+    position: relative;
+    text-align: center;
+}
