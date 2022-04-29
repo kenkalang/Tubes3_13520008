@@ -39,10 +39,10 @@ func KMP(pattern string, text string) int { \
 			if ptrIdx == ptrLen-1 {
 				return txtIdx - ptrLen + 1
 			}
-			i++
-			j++
+			txtIdx++
+			ptrIdx++
 		} else if ptrIdx > 0 {
-			ptrIdx = startIdx[j-1]
+			ptrIdx = startIdx[ptrIdx-1]
 		} else {
 			txtIdx++
 		}
