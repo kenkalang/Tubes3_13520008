@@ -29,13 +29,13 @@ func KMP(pattern string, text string) int { \
 
 	//borderFunction
 	var startIdx [128]int
-	BorderFunction(pattern, m, startIdx[:])
+	BorderFunction(pattern, ptrLen, startIdx[:])
 
 	txtIdx := 0
 	ptrIdx := 0
 	//Looping
 	for txtIdx < txtLen {
-		if pattern[j] == text[txtIdx] {
+		if pattern[ptrIdx] == text[txtIdx] {
 			if ptrIdx == ptrLen-1 {
 				return txtIdx - ptrLen + 1
 			}
