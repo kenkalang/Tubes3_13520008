@@ -34,7 +34,7 @@ const SearchFilter = (props) => {
             const Ketemu = hasil.data
             const resultData = Ketemu.map(person => (
                 <p className='result'>
-                    {person.date} {person.nama}-{person.sakit}-{person.status}
+                    {person.date}-{person.nama}-{person.sakit}-{person.status}
                 </p>
             ))
             setResult(resultData)
