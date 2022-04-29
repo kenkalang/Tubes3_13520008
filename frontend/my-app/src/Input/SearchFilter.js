@@ -1,11 +1,12 @@
-import './Addpenyakit.css';
-import postAddPenyakit from '../post/postAddPenyakit';
+import './SearchFilter.css';
+import postPencarian from '../post/postPencarian';
 import React,{ useState } from 'react';
 
 
-const AddPenyakit = (props) => {
+const SearchFilter = (props) => {
     const [caritanggal, setcaritanggal] = useState('');
     const [caripenyakit, setcaripenyakit] = useState('');
+    const [result , setResult] = useState([]);
   
     const handleSearchTanggal = (event) => {
         setcaritanggal(event.target.value);
@@ -27,9 +28,17 @@ const AddPenyakit = (props) => {
             caritanggal : caritanggal,
           }
           // const hasil = await fetch('http://localhost:8080/coba', config);
-          const hasil = await postAddPenyakit(masukan);
+          const hasil = await postPencarian(masukan);
           if (hasil.status === 200){
             alert("Berhasil mencari hasil")
+            const Ketemu = hasil.data
+            const resultData = Ketemu.map(person => (
+                <p className='result'>
+                    {person.date} {person.nama}-{person.sakit}-{person.status}
+                </p>
+            ))
+            setResult(resultData)
+            console.log('hasil dari resultData',resultData)
           }
           else{
             alert('Gagal mencari hasil');
@@ -50,10 +59,17 @@ const AddPenyakit = (props) => {
             <td><input className="Inputan" type="text" name="caripenyakit" value={caripenyakit} onChange={handleSearchPenyakit}/></td>
             <td><button className="SubmitButton">Submit</button></td>           
           </tr>
+          <tr>
+            <td>*Format (YYYY-MM-DD)</td>
+          </tr>
         </table>
       </form>
+      <div>
+          <h1 className='hasilLabel'>Hasil Pencarian</h1>
+          {result}
+      </div>
       </>
       )
     }
 
-export default AddPenyakit;
+export default SearchFilter;
