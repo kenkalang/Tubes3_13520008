@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	handlers "test-api/func"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -62,17 +63,18 @@ func cobaHandler(c echo.Context) error {
 }
 
 type cekDna struct {
-	Pengguna   string `json:"nama" binding:"required"`
-	Dna        string `json:"dna" binding:"required"`
-	Sakit      string `json:"sakit" binding:"required"`
-	Tanggal    string `json:"date" binding:"required"`
-	Status     string `json:"status"`
-	Presentase int    `json:"presentase"`
+	Pengguna string `json:"nama" binding:"required"`
+	Dna      string `json:"dna" binding:"required"`
+	Sakit    string `json:"sakit" binding:"required"`
+	Tanggal  string `json:"date" binding:"required"`
+	Status   string `json:"status"`
 }
 
 type pencarian struct {
 	Tanggal string `json:"date"`
+	Nama    string `json:"nama"`
 	Sakit   string `json:"sakit"`
+	Status  string `json:"status"`
 }
 
 func postHandler(c echo.Context) error {
@@ -88,16 +90,45 @@ func postHandler(c echo.Context) error {
 	dna := body["dna"].(string)
 	sakit := body["sakit"].(string)
 	date := body["date"].(string)
+	kmp := body["checked"].(bool)
 
 	tanggal := time.Now().Format("2006-01-02")
 
 	fmt.Println(tanggal)
 	var status string
-	var presentase int
+
+	isValid := handlers.DNAValidator(dna)
+	if !isValid {
+		return c.JSON(http.StatusPartialContent, "DNA tidak valid")
+	}
+
+	results, err := Db.Query("SELECT DNA_Penyusun FROM jenis_penyakit WHERE Nama_Penyakit = ?", sakit)
+	if err != nil {
+		return c.String(http.StatusPartialContent, "Penyakit belum ada")
+	}
+
+	var res string
+	results.Next()
+	results.Scan(&res)
+
+	if !kmp {
+		hasiltest := handlers.BooyerMoore(res, dna)
+		if hasiltest {
+			status = "True"
+		} else {
+			status = "False"
+		}
+	} else {
+		hasiltest := handlers.KMP(res, dna)
+		if hasiltest == -1 {
+			status = "False"
+		} else {
+			status = "True"
+		}
+
+	}
 
 	fmt.Println(nama, dna, sakit, date)
-	status = "True"
-	presentase = 100
 	// err = Db.Ping()
 	// if err != nil {
 	// 	fmt.Println("Database connection error")
@@ -107,7 +138,7 @@ func postHandler(c echo.Context) error {
 
 	Db.Query("INSERT INTO hasil_prediksi (Tanggal_Prediksi, Nama_Pasien, Penyakit_Prediksi	,Status_Terprediksi) VALUES (?, ?, ?, ?)", tanggal, nama, sakit, status)
 
-	return c.JSON(http.StatusOK, cekDna{nama, dna, sakit, date, status, presentase})
+	return c.JSON(http.StatusOK, cekDna{nama, dna, sakit, date, status})
 }
 
 type Penyakit struct {
@@ -144,10 +175,15 @@ func pencarianHandler(c echo.Context) error {
 		return err
 	}
 
-	tanggal := body["date"].(string)
-	sakit := body["sakit"].(string)
+	tanggal := body["caritanggal"].(string)
+	sakit := body["caripenyakit"].(string)
 
-	var hasil []cekDna
+	var hasil []pencarian
+
+	var date string
+	var nama string
+	var penyakit string
+	var status string
 
 	switch {
 
@@ -155,25 +191,36 @@ func pencarianHandler(c echo.Context) error {
 		return c.String(http.StatusPartialContent, "Harap isi salah satu")
 
 	case (tanggal == "" && sakit != ""):
-		err := Db.QueryRow("SELECT * FROM hasil_prediksi WHERE Penyakit_Prediksi = ?", sakit).Scan(&hasil)
+		rows, err := Db.Query("SELECT * FROM hasil_prediksi WHERE Penyakit_Prediksi = ?", sakit)
 		if err == sql.ErrNoRows {
 			return c.String(http.StatusPartialContent, "Tidak ada data")
+		}
+		for rows.Next() {
+			rows.Scan(&date, &nama, &penyakit, &status)
+			hasil = append(hasil, pencarian{date, nama, penyakit, status})
 		}
 
 	case (tanggal != "" && sakit == ""):
-		err := Db.QueryRow("SELECT * FROM hasil_prediksi WHERE Tanggal_Prediksi = ?", tanggal).Scan(&hasil)
+		rows, err := Db.Query("SELECT * FROM hasil_prediksi WHERE Tanggal_Prediksi = ?", tanggal)
 		if err == sql.ErrNoRows {
 			return c.String(http.StatusPartialContent, "Tidak ada data")
+		}
+		for rows.Next() {
+			rows.Scan(&date, &nama, &penyakit, &status)
+			hasil = append(hasil, pencarian{date, nama, penyakit, status})
+
 		}
 
 	case (tanggal != "" && sakit != ""):
-		err := Db.QueryRow("SELECT * FROM hasil_prediksi WHERE Tanggal_Prediksi = ? AND Penyakit_Prediksi = ?", tanggal, sakit).Scan(&hasil)
+		rows, err := Db.Query("SELECT * FROM hasil_prediksi WHERE Tanggal_Prediksi = ? AND Penyakit_Prediksi = ?", tanggal, sakit)
 		if err == sql.ErrNoRows {
 			return c.String(http.StatusPartialContent, "Tidak ada data")
 		}
-
+		for rows.Next() {
+			rows.Scan(&date, &nama, &penyakit, &status)
+			hasil = append(hasil, pencarian{date, nama, penyakit, status})
+		}
 	}
 
 	return c.JSON(http.StatusOK, hasil)
-
 }
