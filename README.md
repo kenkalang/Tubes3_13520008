@@ -1,5 +1,5 @@
 ## Tugas Besar 3 IF2211 Strategi Algoritma - Kelompok 13520008
-
+Program berbasis Web-App untuk menentukan pengguna memiliki suatu penyakit atau tidak dengan membandingkan sequence DNA penyakit dengan pengguna menggunakan algoritma string matching Booyer Moore dan KMP
 ## Requirements
 1. Golang
 2. React js
