@@ -1,0 +1,102 @@
+.Masukan{
+    top: 200px;
+    position: relative;
+    font-family: 'Inter',sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+  
+    color: #000000;
+  }
+.Inputan{
+
+    font-family: 'Inter',sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 9px;
+    padding: 4px;
+
+    color: #000000;
+}
+
+td{
+    padding: 10px 50px;
+}
+.buttonUpload{
+    position: relative;
+
+    font-family: 'Inter',sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 9px;
+    padding: 5px;
+    color: #2f2f2f;
+}
+
+.SubmitButton{
+    padding: 7px 50px;
+    border-radius: 9px;
+    font-family: 'Inter',sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+}
+.InputanFile{
+    padding: 7px 50px;
+    border-radius: 9px;
+    font-family: 'Inter',sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    border-radius: 9px;
+    text-align: center;
+}
+
+.hasilLabel {
+    top: 200px;
+    position: relative;
+    font-family: 'Inter',sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    color: #000000;
+}
+
+.result {
+    position: relative;
+    margin: auto;
+    padding: 7px 50px;
+    border-radius: 9px;
+    font-family: 'Inter',sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    border-radius: 9px;
+    text-align: center;
+}
+.Mainjudul {
+    position: relative;
+    top: 47px;
+  
+    font-family: 'Inter', sans-serif;
+    font-style: bold;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 48px;
+    text-align: center;
+  
+    color: #001bb1;
+  }
