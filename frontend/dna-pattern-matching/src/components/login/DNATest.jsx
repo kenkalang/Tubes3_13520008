@@ -30,6 +30,9 @@ export class DNATest extends React.Component {
             Submit
           </button>
         </div>
+        <h1 className='hasilLabel'>Hasil
+          <p className='result'>Tanggal - nama - sakit - presentase% - status - dna</p>
+        </h1>
       </div>
     );
   }
