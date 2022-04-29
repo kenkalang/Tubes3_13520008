@@ -12,11 +12,6 @@
 5. Apabila sequence DNA yang diberikan oleh pengguna tidak lulus regex maka program akan mengeluarkan peringatan bahwa input ditolak.
 6. Pengguna juga dapat mengakses page untuk menambah penyakit dimana pengguna dapat memasukkan nama dan sequence DNA dari sebuah penyakit yang akan dimasukkan ke dalam database.
 7. Page berikutnya adalah page untuk mencari riwayat hasil tes prediksi yang sudah disimpan pada database, untuk pencarian pengguna dapat mencari dengan tiga jenis keyword yaitu tanggal saja, nama penyakit saja dan tanggal beserta nama penyakit. Program hanya akan menampilkan riwayat berdasarkan ketiga jenis keyword tersebut.
-```
-1. Clone repository ini
-2. Buka folder bin -> Debug -> Tubes Stima 2.exe
-3. Jika langkah di atas tidak bisa, buka project pada visual studio, lalu run program pada solution yang ada di src
-```
 Enjoy the app.
 
 ## Anggota Kelompok
